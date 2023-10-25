@@ -20,7 +20,10 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 import './auth'
+import { connectDb } from 'Config/database'
 
 Route.get('/', async () => {
   return { hello: 'world' }
 })
+
+connectDb()

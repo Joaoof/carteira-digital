@@ -1,10 +1,9 @@
 import mongoose from 'mongoose'
+import Env from '@ioc:Adonis/Core/Env'
 
 export async function connectDb() {
-    const mongoUrl = "mongodb+srv://admin:admin@carteira-cluster.m6macxs.mongodb.net/?retryWrites=true&w=majority"
-
     try {
-        await mongoose.connect(mongoUrl)
+        await mongoose.connect(Env.get('DB_CONNECTION'))
         console.log("Connectado com sucesso!");
     } catch (error) {
         console.log(error.message)
