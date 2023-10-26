@@ -2,7 +2,6 @@ import AuthRepository from "App/Repositories/AuthRepository"
 import bcrypt from "bcrypt"
 
 type tipagem = {
-    id: number,
     name: string,
     password: string,
     email: string
@@ -25,7 +24,7 @@ async function signin(body: tipagem) {
     const password = bcrypt.compareSync(body.password, user.password ?? '')
     if (!password) throw new Error("Email or Password incorret")
 
-    const token: tipagem = AuthRepository.generateToken(user._id) as unknown as tipagem
+    const token = await AuthRepository.generateToken(user._id)
 
     return token
 }
