@@ -1,7 +1,14 @@
 import AuthRepository from "App/Repositories/AuthRepository"
 import bcrypt from "bcrypt"
 
-async function signup(body: any) {
+type tipagem = {
+    id: number,
+    name: string,
+    password: string,
+    email: string
+}
+
+async function signup(body: tipagem) {
     const hasPassword = bcrypt.hashSync(body.password, 10)
 
     const userExists = await AuthRepository.findByEmail(body.email)
@@ -11,14 +18,16 @@ async function signup(body: any) {
     return await AuthRepository.create({ ...body, password: hasPassword }) // do que vier do repository
 }
 
-async function signin(body: any) {
+async function signin(body: tipagem) {
     const user = await AuthRepository.findByEmail(body.email)
     if (!user) throw new Error("Email or Password incorret")
-    
+
     const password = bcrypt.compareSync(body.password, user.password ?? '')
     if (!password) throw new Error("Email or Password incorret")
 
-    return AuthRepository.generateToken(user._id)
+    const token: tipagem = AuthRepository.generateToken(user._id) as unknown as tipagem
+
+    return token
 }
 
 export default {

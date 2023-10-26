@@ -20,6 +20,7 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 import './auth'
+import './transaction'
 import { connectDb } from 'Config/database'
 
 Route.get('/', async () => {
